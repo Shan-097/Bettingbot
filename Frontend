@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Football League Betting</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .match { margin-bottom: 20px; }
+    .match h3 { margin: 0; }
+    .bet-buttons button { padding: 10px; font-size: 16px; margin-right: 10px; }
+  </style>
+</head>
+<body>
+
+<h1>Football League Betting</h1>
+
+<div id="matches">
+  <!-- Matches will be dynamically loaded here -->
+</div>
+
+<h3>Your Balance: <span id="balance">100</span> Credits</h3>
+
+<script>
+  // Sample match data
+  const matches = [
+    { id: 1, teams: 'Team A vs Team B', odds: { teamA: 2.5, teamB: 3.0 } },
+    { id: 2, teams: 'Team C vs Team D', odds: { teamC: 1.8, teamD: 2.2 } },
+  ];
+
+  // Load matches
+  const loadMatches = () => {
+    const matchContainer = document.getElementById('matches');
+    matchContainer.innerHTML = ''; // Clear previous matches
+    matches.forEach(match => {
+      const matchElement = document.createElement('div');
+      matchElement.classList.add('match');
+      matchElement.innerHTML = `
+        <h3>${match.teams}</h3>
+        <p>Odds: Team A - ${match.odds.teamA}, Team B - ${match.odds.teamB}</p>
+        <div class="bet-buttons">
+          <button onclick="placeBet(${match.id}, 'teamA', ${match.odds.teamA})">Bet on Team A</button>
+          <button onclick="placeBet(${match.id}, 'teamB', ${match.odds.teamB})">Bet on Team B</button>
+        </div>
+      `;
+      matchContainer.appendChild(matchElement);
+    });
+  };
+
+  // Handle placing a bet
+  const placeBet = (matchId, team, odds) => {
+    const balance = parseInt(document.getElementById('balance').innerText);
+    const betAmount = 10; // Example bet amount (this can be dynamic)
+    if (balance < betAmount) {
+      alert('Not enough balance!');
+      return;
+    }
+    const newBalance = balance - betAmount;
+    document.getElementById('balance').innerText = newBalance;
+    alert(`You placed a bet on ${team} with odds ${odds}`);
+  };
+
+  loadMatches();
+</script>
+
+</body>
+</html>
